@@ -1,0 +1,28 @@
+# Entrada do número de pacientes
+n = int(input().strip())
+
+# Lista para armazenar pacientes com índice de chegada
+pacientes = []
+
+# Loop para entrada de dados
+for i in range(n):
+    nome, idade, status = input().strip().split(", ")
+    idade = int(idade)
+    pacientes.append((i, nome, idade, status))  # Inclui índice de chegada
+
+# Função de prioridade: (nível de prioridade, -idade, ordem de chegada)
+def prioridade(paciente):
+    i, nome, idade, status = paciente
+    if status.lower() == "urgente":
+        return (0, -idade, i)  # Maior prioridade
+    elif idade >= 60:
+        return (1, -idade, i)  # Segunda prioridade
+    else:
+        return (2, 0, i)  # Terceira prioridade
+
+# Ordena os pacientes pela função de prioridade
+pacientes.sort(key=prioridade)
+
+# Exibe a ordem de atendimento com título correto
+print("Ordem de Atendimento:", end=" ")
+print(", ".join([p[1] for p in pacientes]))
